@@ -14,6 +14,8 @@ namespace WpfApplication1.ViewModel
         public DataTemplate DirectoryTemplate { get; set; }
         public DataTemplate CityTemplate { get; set; }
 
+
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is FileInfo)
