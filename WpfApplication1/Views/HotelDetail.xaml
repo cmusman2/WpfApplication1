@@ -1,0 +1,124 @@
+﻿<Window x:Class="WpfApplication1.Views.HotelDetail" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplication1.Views"
+        xmlns:local2="clr-namespace:WpfApplication1.ViewModel.HtmlConverter"
+        xmlns:data="clr-namespace:WpfApplication1.Model"
+        mc:Ignorable="d"
+        Title="HotelDetail" Height="600" Width="900" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local2:PathToBitmapImagelConverter x:Key="pathToBitmapImagelConverter"/>
+
+        <data:Hotel x:Key="hotel"/>
+
+    </Window.Resources>
+    <Grid x:Name="gridhtldetail" Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding name}" Grid.ColumnSpan="3" FontSize="20" Foreground="#1e90ff" FontWeight="Bold" Margin="10 10 0 0"/>
+        <TextBlock Text="{Binding address1}"  Margin="10 35 0 0"/>
+
+        <Border Grid.Row="1" Margin="10 10 0 0" BorderBrush="#202020" Background="#eee" BorderThickness="1" CornerRadius="4">
+            <Grid>
+                <Image Grid.Row="1" Stretch="Uniform"  Width="400" Height="300" Margin="10 10 10 10"  Source="{Binding img, Converter={StaticResource pathToBitmapImagelConverter}}"/>
+            </Grid>
+        </Border>
+
+        <ListView Margin="10 10 5 0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="lvrooms"  ItemsSource="{Binding HotelRooms}">
+            <ListView.ItemContainerStyle >
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Style.Triggers>
+                        
+                        <Trigger Property="Control.IsMouseOver" Value="True">
+                            <Setter Property="Control.Background" Value="Transparent" />
+                            
+                            <Setter Property="Control.BorderBrush" Value="Transparent" />
+                             
+                        </Trigger>
+                        <Trigger Property="Control.IsMouseOver" Value="False">
+                            <Setter Property="Control.Background" Value="Transparent" />
+                            
+                            <Setter Property="Control.BorderBrush" Value="Transparent" />
+                            
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                
+                <GridView  ColumnHeaderContainerStyle="{StaticResource hideGridViewHeader}">
+
+                    <GridViewColumn DisplayMemberBinding="{Binding HotelRooms.name}" Width="Auto" />
+                    <GridViewColumn DisplayMemberBinding="{Binding roomTypeDescription}" Width="Auto" />
+                    <GridViewColumn Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding roomTypeDescription}" FontSize="20" TextAlignment="Right" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn  Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Width="80" Height="40" Cursor="Hand" Background="#1e90ff" FontWeight="Bold" Foreground="#fff" HorizontalAlignment="Right"  Command="{Binding ClickCommand}" CommandParameter="{Binding id}" Content="Reserve"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+                </ListView.View>
+        </ListView>
+
+
+
+        <ListView Margin="10 10 5 0" Grid.Row="2" BorderThickness="0" Grid.ColumnSpan="3" x:Name="lvimages"  ItemsSource="{Binding Images}">
+            
+                <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <Image  Stretch="UniformToFill" Cursor="Hand"  Width="40" Height="40" Margin="5 5 5 5" Source="{Binding thumbNail, Converter={StaticResource pathToBitmapImagelConverter}}">
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick" Command="{Binding ClickCommand}" CommandParameter="{Binding thumbNail}" />
+                        </Image.InputBindings>
+                    </Image>
+                </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+        </ListView>
+
+
+
+        <RichTextBox VerticalScrollBarVisibility="Visible" IsReadOnly="True" Height="auto" BorderThickness="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="10 10 10 10" local2:HtmlRichTextBoxBehavior.Text="{Binding HotelSummary.shortdescription}" />
+        
+        
+        <!--
+        <Image Grid.Row="1" Width="600" Height="400" x:Name="MyImage" Source="{Binding img, Converter={StaticResource pathToBitmapImagelConverter}}"/>
+-->
+        <!--
+        <Image Grid.Row="1" Margin="0 0 0 0">
+            <Image.Source>
+                <BitmapImage UriSource="{Binding img, Converter={StaticResource pathToBitmapImagelConverter}}"></BitmapImage>
+            </Image.Source>
+        </Image>
+         -->
+    </Grid>
+</Window>

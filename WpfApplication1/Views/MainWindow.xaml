@@ -1,0 +1,118 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplication1"
+        mc:Ignorable="d"
+         WindowStartupLocation="CenterScreen" Title="MainWindow" Height="650" Width="725"  Icon="http://media.expedia.com/hotels/2000000/1110000/1101900/1101884/1101884_90_t.jpg">
+    <Window.Resources>
+        <Style x:Key="alternatingStyle" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger  Property="ItemsControl.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="LightPink"></Setter>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Orange"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>             
+        
+        
+        <CollectionViewSource x:Key="SearchResultCollection" x:Name="SearchResultCollection" Source="{Binding SearchResultItems}" />
+        <DataTemplate x:Key="SearchResultTemplate">
+            
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding name}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding city}"/>
+                    <Button Grid.Column="2" Command="{Binding ClickCommand}" CommandParameter="{Binding name}" Content="Book"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="OrangeHeaderTemplate">
+            <DockPanel>
+                <CheckBox/>
+                <TextBlock FontSize="10" Foreground="Orange"  
+                       FontWeight="Bold" >
+                    <TextBlock.Text>
+                        <Binding/>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DockPanel>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid Background="Aqua">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <TextBox VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Height="90"  AcceptsReturn="True" Name="adddata" Grid.Column="1" Background="MintCream" Grid.Row="0"/>
+
+        <Button Grid.Row="1" Grid.Column="1" Width="50" Margin="-100 0 0 0" Name="dorun11" Content="Do Run11" Click="dorun11_Click"/>
+
+
+        <Button Grid.Row="1" Grid.Column="1" Width="50" Margin="0 0 0 0" Name="dorun" Content="Do Run" Click="dorun_Click"/>
+        <Button Grid.Row="1" Grid.Column="1" Width="70" Margin="150 0 0 0" Name="dorun2" Content="Do Run2" Click="dorun2_Click"/>
+        <Button Grid.Row="1" Grid.Column="1" Width="70" Margin="300 0 0 0" Name="dorun3" Content="Do Run3" Click="dorun3_Click"/>
+        <Button Grid.Row="1" Grid.Column="1" Width="70" Margin="450 0 0 0" Name="dorun4" Content="Show Hotels"  Click="dorun4_Click"/>
+        <Button Grid.Row="1" Grid.Column="0" Width="70" Margin="0 0 0 0" Name="userctrl" Content="UserControl" Click="userctrl_Click"/>
+
+        <TextBox Name="destination" Text="London, England" Grid.Column="1" Grid.Row="2"/>
+        <Button Name="doSearch" Content="Start Search" Margin="0 90 0 0" Height="50" Grid.Column="1" Grid.Row="2" Click="doSearch_Click"/>
+
+        <TextBlock Text="" Name="prog"  Grid.Column="1" Grid.Row="3" Margin="0 0 0 0" Foreground="Red" FontSize="18" FontWeight="Bold"/>
+        <TextBox VerticalScrollBarVisibility="Auto" Margin="0 20 0 20" TextWrapping="Wrap" AcceptsReturn="True" Name="text" Grid.Column="1" Background="Azure" MaxLines="10" Grid.Row="3"/>
+
+
+        <ListView x:Name="SearchResultCollectionList" Grid.Row="4" Grid.ColumnSpan="3" ItemsSource="{Binding Source={StaticResource SearchResultCollection}}" Background="Azure" Height="300" Width="400">
+            <ListView.View>
+                <GridView  AllowsColumnReorder="true" ColumnHeaderToolTip="Authors" ColumnHeaderTemplate="{StaticResource OrangeHeaderTemplate}">
+                    
+                    <GridView.ColumnHeaderContextMenu>
+                        <ContextMenu >
+                            <MenuItem Header="Ascending"/>
+                            <MenuItem Header="Descending" />
+                        </ContextMenu>
+                    </GridView.ColumnHeaderContextMenu>
+
+                    <GridViewColumn CellTemplate="{StaticResource SearchResultTemplate}">
+                        <GridViewColumn.Header>
+                            <Border>
+                                <TextBlock Text="Name" />
+                            </Border>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView Margin="10" Grid.Row="4" Visibility="Hidden" Grid.ColumnSpan="3">
+            <ListViewItem>A ListView</ListViewItem>
+            <ListViewItem IsSelected="True">with several</ListViewItem>
+            <ListViewItem>items</ListViewItem>
+        </ListView>
+
+        <!--
+            <GridView x:Name="SearchResultGrid" ItemsSource="{Binding Source={StaticResource SearchResultCollection}}"/>
+            </GridView>
+         -->
+         
+    </Grid>
+
+</Window>
