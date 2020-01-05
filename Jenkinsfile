@@ -44,7 +44,8 @@ pipeline{
        		stage('Deploy')
        		{
          		steps{
-                		echo 'deploying...'     
+                		echo 'deploying...'    
+                		zip zipFile: "data_${currentBuild.number}.zip", archive: false, dir: "."
             		}
        		}
 	}
